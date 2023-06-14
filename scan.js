@@ -66,6 +66,7 @@ async function run(code) {
                     }
                     const now = new Date().toISOString().split('T')[0] + ' ' + new Date().toTimeString().split(' ')[0];
                     let date = `${new Date().getFullYear()}-${monthNum}-${day < 10 ? '0' + day : day}`
+                    console.log(date)
                     sqltext += `('${center.city}','${date}','${now}'),`
                 })
             })
@@ -81,7 +82,7 @@ async function run(code) {
             await m.page.browser().close();
             m = null
             await wait(5 * 60 * 1000)
-            run(code)
+            // run(code)
         }
     })
 }
