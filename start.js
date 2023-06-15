@@ -27,13 +27,13 @@ async function restart() {
     console.log("------ new process ------")
     for (let i = 0; i < centreList.length; i++) {
         await scan(centreList[i].code);
-        await wait(15 * 1000);
     }
 }
 
 async function scan(code) {
     console.log(`scan ${code}`);
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
+        await wait(15 * 1000);
         process.exec(`node ./scan.js --code ${code}`, { windowsHide: true }, (err) => {
             if (err) {
                 reject(err);
@@ -41,6 +41,7 @@ async function scan(code) {
                 resolve();
             }
         })
+        resolve();
     })
 }
 

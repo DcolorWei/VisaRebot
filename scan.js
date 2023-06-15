@@ -37,6 +37,9 @@ const centreList = [
 
 //run一次就是0.01715rmb
 async function run(code) {
+    setTimeout(() => {
+        process.exit(0)
+    }, 180 * 1000)
     const center = centreList.find(n => n.code == code);
     try {
         const m = (await methods.openRegPage(center.code))()
