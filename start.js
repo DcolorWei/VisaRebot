@@ -1,5 +1,4 @@
 //自动重启scanjs
-
 const process = require('child_process');
 
 const centreList = [
@@ -27,10 +26,22 @@ const centreList = [
 async function restart() {
     console.log("------ new process ------")
     for (let i = 0; i < centreList.length; i++) {
-        console.log(`node ./scan.js --code ${centreList[i].code}`)
-        process.exec(`node ./scan.js --code ${centreList[i].code}`, { windowsHide: true })
+        await scan(centreList[i].code);
         await wait(15 * 1000);
     }
+}
+
+async function scan(code) {
+    console.log(`scan ${code}`);
+    return new Promise((resolve, reject) => {
+        process.exec(`node ./scan.js --code ${code}`, { windowsHide: true }, (err) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        })
+    })
 }
 
 async function wait(num = 1000) {
@@ -42,4 +53,4 @@ async function wait(num = 1000) {
 restart();
 setInterval(() => {
     restart();
-}, 1000 * 60 * 5);
+}, 1000 * 60 * 10);
