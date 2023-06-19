@@ -32,7 +32,7 @@ async function openRegPage(city = "BJ") {
         let success = false
         while (!success) {
             try {
-                await page.goto('https://web.blscn.cn/book_appointment.php', { waitUntil: 'networkidle0' });
+                await page.goto('https://web.blscn.cn/book_appointment.php');
                 success = true
             } catch { }
         }
@@ -93,7 +93,6 @@ async function openRegPage(city = "BJ") {
         await wait();
 
         const hcap = await page.$$eval(".h-captcha", (e) => e[0].getAttribute("data-sitekey"))
-
         const key = "d3582fd1784c7d1407a25d3dd1286499"
         let sendCap = null
 
@@ -168,7 +167,6 @@ async function openRegPage(city = "BJ") {
         await page.mouse.move(100 + Math.random(), 0 + Math.random());
         await page.mouse.down();
         await page.mouse.up();
-
         await new Promise(async (r) => {
             let yet = true
             let wrong = 0;
@@ -229,7 +227,6 @@ async function getAvailableDate(page) {
                 const y = ("" + document.getElementsByClassName("datepicker-switch")[0].innerText).split(" ")[0]
                 available[y] = []
                 const m = document.getElementsByClassName("activeClass")
-                console.log(m)
                 for (let i = 0; i < m.length; i++) {
                     //元素的class不能有old
                     if (m[i].getAttribute("class").indexOf("new") != -1) continue;
@@ -249,7 +246,7 @@ async function getAvailableDate(page) {
     return result;
 }
 
-async function register(page) {
+async function register(page, user) {
     let inputElement = null;
     await new Promise(async (r) => {
         let yet = true
@@ -287,13 +284,13 @@ async function register(page) {
                 await wait();
             }
     })
-
+    
     inputElement = await page.$("#first_name")
-    await inputElement.type("MINGZHU", { delay: Math.random * 100 + 100 });
+    await inputElement.type("HONG", { delay: Math.random * 100 + 100 });
     inputElement = await page.$("#last_name")
-    await inputElement.type("MENG", { delay: Math.random * 100 + 100 });
+    await inputElement.type("XU", { delay: Math.random * 100 + 100 });
     await page.evaluate(() => {
-        document.getElementById("dateOfBirth").value = "1998-03-26"
+        document.getElementById("dateOfBirth").value = "1970-02-13"
         document.getElementById("pptIssueDate").value = "2018-04-03"
         document.getElementById("pptExpiryDate").value = "2028-04-02"
         document.getElementById("pptIssuePalace").value = "China"
