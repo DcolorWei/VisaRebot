@@ -41,6 +41,8 @@ async function run(code) {
         process.exit(0)
     }, 180 * 1000)
     const center = centreList.find(n => n.code == code);
+    //清除数据库三天前的数据
+    sql.getSql()().query(`delete from available where scan_time < DATE_SUB(NOW(),INTERVAL 1 DAY)`)
     try {
         const m = (await methods.openRegPage(center.code))()
         const data = await methods.getAvailableDate(m.page)
